@@ -1,0 +1,22 @@
+-- Table: pay.master
+
+-- DROP TABLE IF EXISTS pay.master;
+
+CREATE TABLE IF NOT EXISTS pay.master
+(
+    p_id integer NOT NULL DEFAULT nextval('pay.master_p_id_seq'::regclass),
+    p_date timestamp without time zone,
+    p_recieve numeric(10,3),
+    p_issue numeric(10,3),
+    p_pick numeric(10,3),
+    p_touch numeric(10,3),
+    p_loss numeric(10,3),
+    p_fine numeric(10,3),
+    isdeleted boolean DEFAULT false,
+    createdon timestamp without time zone DEFAULT now()
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS pay.master
+    OWNER to postgres;

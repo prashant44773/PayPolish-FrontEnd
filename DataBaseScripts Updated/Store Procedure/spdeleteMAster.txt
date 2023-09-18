@@ -1,0 +1,25 @@
+-- FUNCTION: pay.spdeletemaster(integer)
+
+-- DROP FUNCTION IF EXISTS pay.spdeletemaster(integer);
+
+CREATE OR REPLACE FUNCTION pay.spdeletemaster(
+	a_id integer)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	IF a_id is NOT null 
+	THEN
+		UPDATE pay.master SET isdeleted = true WHERE p_id = a_id; 
+	return true;
+	
+	ELSE
+		return false;
+	END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION pay.spdeletemaster(integer)
+    OWNER TO postgres;

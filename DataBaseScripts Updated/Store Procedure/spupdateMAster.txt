@@ -1,0 +1,33 @@
+-- FUNCTION: pay.spupdatemaster(integer, timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric)
+
+-- DROP FUNCTION IF EXISTS pay.spupdatemaster(integer, timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric);
+
+CREATE OR REPLACE FUNCTION pay.spupdatemaster(
+	a_id integer,
+	a_date timestamp without time zone,
+	a_recieve numeric,
+	a_issue numeric,
+	a_pick numeric,
+	a_touch numeric,
+	a_loss numeric,
+	a_fine numeric)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	IF a_id is NOT null 
+	THEN
+		UPDATE pay.master SET p_date = a_date , p_recieve = a_recieve , p_issue = a_issue , p_pick = a_pick ,
+								 p_touch = a_touch , p_loss = a_loss , p_fine = a_fine WHERE p_id = a_id;
+	return true;
+	
+	ELSE
+		return false;
+	END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION pay.spupdatemaster(integer, timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric)
+    OWNER TO postgres;

@@ -1,0 +1,21 @@
+-- FUNCTION: pay.spgetuniquedates(refcursor)
+
+-- DROP FUNCTION IF EXISTS pay.spgetuniquedates(refcursor);
+
+CREATE OR REPLACE FUNCTION pay.spgetuniquedates(
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	open ref1 for
+			select distinct(p_date)::Date,p_id,p_recieve,p_issue,p_pick,p_touch,p_loss,p_fine,isdeleted,createdon from pay.master
+			where  p_date between CURRENT_DATE - 30 and  CURRENT_DATE and isdeleted is false order by 1 desc;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION pay.spgetuniquedates(refcursor)
+    OWNER TO postgres;

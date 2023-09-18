@@ -1,0 +1,20 @@
+-- FUNCTION: pay.spgetmaster(refcursor)
+
+-- DROP FUNCTION IF EXISTS pay.spgetmaster(refcursor);
+
+CREATE OR REPLACE FUNCTION pay.spgetmaster(
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	open ref1 for
+			SELECT * FROM pay.Master where  p_date between CURRENT_DATE - 30 and  CURRENT_DATE and isdeleted = false order by 1 desc;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION pay.spgetmaster(refcursor)
+    OWNER TO postgres;
