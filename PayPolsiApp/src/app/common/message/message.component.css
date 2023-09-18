@@ -1,0 +1,11 @@
+.LoaderCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: large;
+    color: cornflowerblue;
+    /* background-color: cornflowerblue; */
+}

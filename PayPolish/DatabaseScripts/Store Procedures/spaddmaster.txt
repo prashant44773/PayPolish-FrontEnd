@@ -1,0 +1,24 @@
+-- FUNCTION: public.spaddmaster(timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric)
+
+-- DROP FUNCTION IF EXISTS public.spaddmaster(timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric);
+
+CREATE OR REPLACE FUNCTION public.spaddmaster(
+	a_date timestamp without time zone,
+	a_recieve numeric,
+	a_issue numeric,
+	a_pick numeric,
+	a_touch numeric,
+	a_loss numeric,
+	a_fine numeric)
+    RETURNS void
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+		insert into public.master(p_date,p_recieve,p_issue,p_pick,p_touch,p_loss,p_fine) values(a_date,a_recieve,a_issue,a_pick,a_touch,a_loss,a_fine);
+END;
+$BODY$;
+
+ALTER FUNCTION public.spaddmaster(timestamp without time zone, numeric, numeric, numeric, numeric, numeric, numeric)
+    OWNER TO postgres;

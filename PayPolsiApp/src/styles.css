@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.snack{
+    background-color: #2196F3;
+    color: white;
+    border-radius: 50%;
+}
+
+.post-dialog-container .mat-dialog-container {
+    background-color: var(--background);
+    box-shadow: none;
+  padding: 0px !important;
+  overflow: hidden !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+

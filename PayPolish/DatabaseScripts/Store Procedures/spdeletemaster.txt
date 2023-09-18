@@ -1,0 +1,25 @@
+-- FUNCTION: public.spdeletemaster(integer)
+
+-- DROP FUNCTION IF EXISTS public.spdeletemaster(integer);
+
+CREATE OR REPLACE FUNCTION public.spdeletemaster(
+	a_id integer)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	IF a_id is NOT null 
+	THEN
+		UPDATE public.master SET isdeleted = true WHERE p_id = a_id; 
+	return true;
+	
+	ELSE
+		return false;
+	END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION public.spdeletemaster(integer)
+    OWNER TO postgres;

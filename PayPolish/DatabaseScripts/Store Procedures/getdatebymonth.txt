@@ -1,0 +1,22 @@
+-- FUNCTION: public.spgetdatabymonthmaster(timestamp without time zone, timestamp without time zone, refcursor)
+
+-- DROP FUNCTION IF EXISTS public.spgetdatabymonthmaster(timestamp without time zone, timestamp without time zone, refcursor);
+
+CREATE OR REPLACE FUNCTION public.spgetdatabymonthmaster(
+	a_current timestamp without time zone,
+	a_previous timestamp without time zone,
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	OPEN ref1 for
+		select * from public.master where  p_date between a_previous and  a_current;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION public.spgetdatabymonthmaster(timestamp without time zone, timestamp without time zone, refcursor)
+    OWNER TO postgres;

@@ -1,0 +1,21 @@
+-- FUNCTION: public.spgetbydatemaster(timestamp without time zone, refcursor)
+
+-- DROP FUNCTION IF EXISTS public.spgetbydatemaster(timestamp without time zone, refcursor);
+
+CREATE OR REPLACE FUNCTION public.spgetbydatemaster(
+	a_id timestamp without time zone,
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	OPEN ref1 for
+		select * from public.master where  p_date = a_id;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION public.spgetbydatemaster(timestamp without time zone, refcursor)
+    OWNER TO postgres;

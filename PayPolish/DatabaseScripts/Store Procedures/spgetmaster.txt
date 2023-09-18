@@ -1,0 +1,20 @@
+-- FUNCTION: public.spgetmaster(refcursor)
+
+-- DROP FUNCTION IF EXISTS public.spgetmaster(refcursor);
+
+CREATE OR REPLACE FUNCTION public.spgetmaster(
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	open ref1 for
+			SELECT * FROM Master where isdeleted = false;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION public.spgetmaster(refcursor)
+    OWNER TO postgres;

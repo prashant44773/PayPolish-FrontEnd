@@ -1,0 +1,172 @@
+.container{
+    width: 700px;
+    height: 400px;
+    /* background-color: burlywood; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .leftbox{
+    width: 45%;
+    height: 90%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .rightbox{
+    width: 45%;
+    height: 90%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .center{
+    width: 80%;
+  }
+  
+  .maincontainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  /* Btn Classes */
+  
+  .myicon{
+    font-size: 17px;
+    color:  #f6931D;
+  }
+  
+  .myicon:hover{
+    font-size: 18px;
+    color:  white;
+  }
+  .myBtn{
+    border-radius: 5%;
+    /* background-color: rgb(246, 204, 33); */
+    background-color: white;
+    border: 2px solid #f6931D;
+    color: black;
+  }
+  
+  
+  .myBtn:hover ,.myBtn:hover #mi{
+    border-radius: 5%;
+    background-color: #f6931D;
+    color: white;
+    border: white;
+    transform:scale(1.1);
+    transition: 0.2s;
+  }
+  
+  /* Edit Btn  */
+  
+  .editicon{
+    font-size: 17px;
+    color:  #58D68D;
+  }
+  
+  .editicon:hover{
+    font-size: 18px;
+    color:  white;
+  }
+  
+  .Editbtn{
+    border-radius: 5%;
+    /* background-color: rgb(246, 204, 33); */
+    background-color: white;
+    border: 2px solid #58D68D;
+    color: black; 
+  }
+  
+  .Editbtn:hover ,.Editbtn:hover #me{
+    border-radius: 5%;
+    background-color: #58D68D;
+    color: white;
+    border: white;
+    transform:scale(1.1);
+    transition: 0.2s;
+  }
+  
+  
+  /* Delete Icon and Button */
+  
+  .delicon{
+    font-size: 17px;
+    color:  #FF5733;
+  }
+  
+  .delicon:hover{
+    font-size: 18px;
+    color:  white;
+  }
+  
+  .Delbtn{
+    border-radius: 5%;
+    /* background-color: rgb(246, 204, 33); */
+    background-color: white;
+    border: 2px solid #FF5733;
+    color: black; 
+  }
+  
+  .Delbtn:hover ,.Delbtn:hover #md{
+    border-radius: 5%;
+    background-color: #FF5733;
+    color: white;
+    border: white;
+    transform:scale(1.1);
+    transition: 0.2s;
+  }
+  
+  
+  /* Update Button Css */
+  
+  
+  .upicon{
+    font-size: 17px;
+    color:  #85C1E9;
+  }
+  
+  .upicon:hover{
+    font-size: 18px;
+    color:  white;
+  }
+  
+  .UpBtn{
+    border-radius: 5%;
+    /* background-color: rgb(246, 204, 33); */
+    background-color: white;
+    border: 2px solid #85C1E9;
+    color: black; 
+  }
+  
+  .UpBtn:hover ,.UpBtn:hover #mu{
+    border-radius: 5%;
+    background-color: #85C1E9;
+    color: white;
+    border: white;
+    transform:scale(1.1);
+    transition: 0.2s;
+  }
+  
+  
+  .MainContainer{
+    min-width: 100%;
+    /* max-width: auto; */
+    min-height: 100vh;
+    /* max-height: auto; */
+    /* margin-top: 2px; */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  };
+  

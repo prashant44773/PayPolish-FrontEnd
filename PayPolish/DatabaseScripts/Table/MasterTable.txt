@@ -1,0 +1,23 @@
+-- Table: public.master
+
+-- DROP TABLE IF EXISTS public.master;
+
+CREATE TABLE IF NOT EXISTS public.master
+(
+    p_id integer NOT NULL DEFAULT nextval('master_p_id_seq'::regclass),
+    p_date timestamp without time zone,
+    p_recieve numeric(10,4),
+    p_issue numeric(10,4),
+    p_pick numeric(10,4),
+    p_touch numeric(10,4),
+    p_loss numeric(10,4),
+    p_fine numeric(10,4),
+    isdeleted boolean DEFAULT false,
+    createdon timestamp without time zone DEFAULT now(),
+    CONSTRAINT master_pkey PRIMARY KEY (p_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.master
+    OWNER to postgres;
