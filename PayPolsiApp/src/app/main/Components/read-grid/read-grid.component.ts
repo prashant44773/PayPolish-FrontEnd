@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DateModle } from 'src/app/Models/DateModel';
 import { Master } from 'src/app/Models/MasterModel';
+import { DatetransService } from 'src/app/common/datetrans.service';
 import { ApiService } from 'src/app/services/api.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -14,7 +15,8 @@ export class ReadGridComponent {
   constructor(
     private api: ApiService,
     private spinner: LoaderService,
-    private notify: MessageService
+    private notify: MessageService,
+    public datepipe : DatetransService
   ) {}
 
   ngOnInit(): void {

@@ -289,16 +289,16 @@ namespace PayPolish.DataAccessLayer
 
                           select new MasterModel
                           {
-                              ID = (int)row["p_id"],
+                              ID = 0,
                               Date = row["p_date"].ToString(),
-                              Recieve = (float)(decimal)row["p_recieve"],
-                              Issue = (float)(decimal)row["p_issue"],
-                              Pick = (float)(decimal)row["p_pick"],
-                              Touch = (float)(decimal)row["p_touch"],
-                              Loss = (float)(decimal)row["p_loss"],
-                              Fine = (float)(decimal)row["p_fine"],
-                              isdeleted = (bool)row["isdeleted"],
-                              CreatedOn = row["createdon"].ToString(),
+                              Recieve = 0,
+                              Issue = 0,
+                              Pick = 0,
+                              Touch = 0,
+                              Loss = 0,
+                              Fine = 0,
+                              isdeleted = false,
+                              CreatedOn = "",
 
                           }).ToList();
 

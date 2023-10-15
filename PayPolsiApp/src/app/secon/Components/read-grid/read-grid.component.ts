@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
-import { MessageService } from '../../..//services/message.service'
+import { MessageService } from '../../..//services/message.service';
 import { DateModle } from 'src/app/Models/DateModel';
 import { Master } from 'src/app/Models/MasterModel';
 import { LoaderService } from 'src/app/services/loader.service';
 import { SeconService } from 'src/app/services/secon.service';
+import { DatetransService } from 'src/app/common/datetrans.service';
 
 @Component({
   selector: 'app-read-grid',
   templateUrl: './read-grid.component.html',
-  styleUrls: ['./read-grid.component.css']
+  styleUrls: ['./read-grid.component.css'],
 })
 export class ReadGridComponent {
-
   constructor(
     private api: SeconService,
     private spinner: LoaderService,
-    private notify: MessageService
+    private notify: MessageService,
+    public datepipe: DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +76,7 @@ export class ReadGridComponent {
         this.spinner.hideLoader();
         this.notify.showMessage('Your Data Store is Empty ! Add Some Records.');
       }
+      
       this.UniqueDateData = res;
     });
     this.spinner.hideLoader();
@@ -104,9 +106,6 @@ export class ReadGridComponent {
   }
 
   DateFilter(event: any) {
-    console.log(event.dataItem);
-    let text = event.dataItem.date;
-    console.log(text);
 
     let Body: DateModle = {
       Current: event.dataItem.date.toString(),
@@ -160,7 +159,5 @@ export class ReadGridComponent {
       // Reload Footer Apis Everytime Data is Changed
       // this.FooterValues();
     });
-
   }
-
 }

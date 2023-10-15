@@ -16,6 +16,7 @@ import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MessageComponent } from './common/message/message.component';
 import { HomeComponent } from './Home/home/home.component';
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { ButtonsModule } from "@progress/kendo-angular-buttons";
     MatSnackBarModule,
     ButtonsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,77 +1,201 @@
-
 <app-navbar></app-navbar>
 
 <div class="MainContainer">
-  
-<div class="containerRead">
-  <div class="scrollbar">
-    <!-- <div class="dropDownSection">
+  <div class="containerRead">
+    <div class="scrollbar">
+      <!-- <div class="dropDownSection">
       Two Date Pickers
     </div> -->
-    <kendo-grid [data]="UniqueDateData" (edit)="DateFilter($event)" [sortable]="true">
-      <ng-template kendoGridToolbarTemplate>
-        <button kendoButton [primary]="true" (click)="MonthFilter()" class="myBtn">  <i class="bi bi-bar-chart-line-fill myicon" id="mi"></i> Monthly Report</button>
-      </ng-template>
-      <kendo-grid-column field="date" title="Date" [width]="170" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}"> </kendo-grid-column>
-      <kendo-grid-command-column title="Action" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}" [footerStyle]="{ 'background-color': '#888' , 'color':'white' , 'border-color':'white'}">
-        <ng-template kendoGridCellTemplate>
-          <button kendoGridEditCommand [primary]="true" class="UpBtn">  <i class="bi bi-funnel-fill upicon" id="mu"></i>  Show</button>
-        </ng-template>
-      </kendo-grid-command-column>
-    </kendo-grid>
-  </div>
-
-  <div class="mainGrid">
-    <kendo-grid [data]="gridData" [sortable]="true">
-      <ng-template kendoGridToolbarTemplate>
-        <button kendoGridPDFCommand class="Editbtn"> <i class="bi bi-printer-fill editicon" id="me"></i>  Save As PDF</button>
-      </ng-template>
-      <kendo-grid-column field="id" title="ID" [hidden]="true" [width]="140" > </kendo-grid-column>
-      <kendo-grid-column field="date" title="Date" [width]="180" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}"> </kendo-grid-column>
-      <kendo-grid-column field="recieve" title="Recieve" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}"> </kendo-grid-column>
-      <kendo-grid-column field="issue" title="Issue" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}" [footerStyle]="{ 'background-color': '#888' , 'color':'white' , 'border-color':'white'}">
-        <ng-template kendoGridFooterTemplate>
-          Total : {{ FooterIssue }}
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="pick" title="Pick" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}"> </kendo-grid-column>
-      <kendo-grid-column field="touch" title="Touch" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          {{ dataItem.touch }}
-          <!-- <kendo-dropdownlist [data]="areaList"></kendo-dropdownlist> -->
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="loss" title="Loss" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}" [footerStyle]="{ 'background-color': '#888' , 'color':'white' , 'border-color':'white'}">
-        <ng-template kendoGridFooterTemplate>
-          Total : {{ FooterLoss }}
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="fine" title="Fine" [width]="140" [headerStyle]="{ 'background-color': 'rgb(246 204 33)' , 'color':'white' , 'border-color':'white'}" [footerStyle]="{ 'background-color': '#888' , 'color':'white' , 'border-color':'white'}">
-        <ng-template kendoGridFooterTemplate>
-          Total : {{ FooterFine }}
-        </ng-template>
-      </kendo-grid-column>
-
-      <!-- PDF Export -->
-      <kendo-grid-pdf
-        fileName="Products.pdf"
-        [allPages]="true"
-        paperSize="A4"
-        [repeatHeaders]="true"
-        [landscape]="true"
+      <kendo-grid
+        [data]="UniqueDateData"
+        (edit)="DateFilter($event)"
+        [sortable]="true"
       >
-        <kendo-grid-pdf-margin
-          top="2cm"
-          left="1cm"
-          right="1cm"
-          bottom="2cm"
-        ></kendo-grid-pdf-margin>
-      </kendo-grid-pdf>
-      <!-- PDF Export -->
-    </kendo-grid>
-  </div>
-</div>
+        <ng-template kendoGridToolbarTemplate>
+          <button
+            kendoButton
+            [primary]="true"
+            (click)="MonthFilter()"
+            class="myBtn"
+          >
+            <i class="bi bi-bar-chart-line-fill myicon" id="mi"></i> Monthly
+            Report
+          </button>
+        </ng-template>
+        <kendo-grid-column
+          field="date"
+          title="Date"
+          [width]="170"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{datepipe.getDate(dataItem.date)}}
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-command-column
+          title="Action"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+          [footerStyle]="{
+            'background-color': '#888',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+          <ng-template kendoGridCellTemplate>
+            <button kendoGridEditCommand [primary]="true" class="UpBtn">
+              <i class="bi bi-funnel-fill upicon" id="mu"></i> Show
+            </button>
+          </ng-template>
+        </kendo-grid-command-column>
+      </kendo-grid>
+    </div>
 
+    <div class="mainGrid">
+      <kendo-grid [data]="gridData" [sortable]="true">
+        <ng-template kendoGridToolbarTemplate>
+          <button kendoGridPDFCommand class="Editbtn">
+            <i class="bi bi-printer-fill editicon" id="me"></i> Save As PDF
+          </button>
+        </ng-template>
+        <kendo-grid-column field="id" title="ID" [hidden]="true" [width]="140">
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="date"
+          title="Date"
+          [width]="180"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{datepipe.getDate(dataItem.date)}}
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="recieve"
+          title="Recieve"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="issue"
+          title="Issue"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+          [footerStyle]="{
+            'background-color': '#888',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+          <ng-template kendoGridFooterTemplate>
+            Total : {{ FooterIssue }}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="pick"
+          title="Pick"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="touch"
+          title="Touch"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.touch }}
+            <!-- <kendo-dropdownlist [data]="areaList"></kendo-dropdownlist> -->
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="loss"
+          title="Loss"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+          [footerStyle]="{
+            'background-color': '#888',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+          <ng-template kendoGridFooterTemplate>
+            Total : {{ FooterLoss }}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="fine"
+          title="Fine"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+          [footerStyle]="{
+            'background-color': '#888',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
+          <ng-template kendoGridFooterTemplate>
+            Total : {{ FooterFine }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <!-- PDF Export -->
+        <kendo-grid-pdf
+          fileName="Products.pdf"
+          [allPages]="true"
+          paperSize="A4"
+          [repeatHeaders]="true"
+          [landscape]="true"
+        >
+          <kendo-grid-pdf-margin
+            top="2cm"
+            left="1cm"
+            right="1cm"
+            bottom="2cm"
+          ></kendo-grid-pdf-margin>
+        </kendo-grid-pdf>
+        <!-- PDF Export -->
+      </kendo-grid>
+    </div>
+  </div>
 </div>
 
 <app-footer></app-footer>

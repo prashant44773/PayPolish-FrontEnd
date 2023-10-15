@@ -32,6 +32,9 @@
             'border-color': 'white'
           }"
         >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{datepipe.getDate(dataItem.date)}}
+        </ng-template>
         </kendo-grid-column>
         <kendo-grid-command-column
           title="Action"
@@ -75,6 +78,9 @@
             'border-color': 'white'
           }"
         >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{datepipe.getDate(dataItem.date)}}
+        </ng-template>
         </kendo-grid-column>
         <kendo-grid-column
           field="recieve"

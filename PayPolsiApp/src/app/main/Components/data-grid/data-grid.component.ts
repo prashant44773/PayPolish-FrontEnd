@@ -1,15 +1,18 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AddEvent,
   CancelEvent,
+  CellClickEvent,
+  CellCloseEvent,
   EditEvent,
   GridComponent,
   RemoveEvent,
   SaveEvent,
 } from '@progress/kendo-angular-grid';
-import { RowHeightService } from '@progress/kendo-angular-grid/scrolling/row-height.service';
 import { Master } from 'src/app/Models/MasterModel';
+import { DatetransService } from 'src/app/common/datetrans.service';
 import { ApiService } from 'src/app/services/api.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MessageService } from 'src/app/services/message.service';
@@ -18,12 +21,14 @@ import { MessageService } from 'src/app/services/message.service';
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
   styleUrls: ['./data-grid.component.css'],
+  providers:[DatePipe]
 })
 export class DataGridComponent implements OnInit {
   constructor(
     private api: ApiService,
     private spinner: LoaderService,
-    private notify: MessageService
+    private notify: MessageService,
+    public datepipe : DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +67,7 @@ export class DataGridComponent implements OnInit {
   }
 
   protected editHandler(args: EditEvent): void {
+    console.log(args);
     this.isNew = false;
     // this.DataForm;
     this.DataForm = new FormGroup({
@@ -169,30 +175,44 @@ export class DataGridComponent implements OnInit {
       this.spinner.hideLoader();
       this.isNew = false;
     } else {
-
       let Body: Master = {
         id: args.dataItem.id,
-        date: new Date(args.formGroup.get(['date'])?.value).toDateString().toString(),
-        issue: Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)),
+        date: new Date(args.formGroup.get(['date'])?.value)
+          .toDateString()
+          .toString(),
+        issue: Number(
+          parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
+        ),
         // loss: args.dataItem.loss,
         loss:
-          Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)) -
+          Number(
+            parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+          ) -
           Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)),
-        pick: Number(parseFloat(args.formGroup.get(['pick'])?.value).toFixed(3)),
-        touch: Number(parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)),
-        recieve: Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)),
+        pick: Number(
+          parseFloat(args.formGroup.get(['pick'])?.value).toFixed(3)
+        ),
+        touch: Number(
+          parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)
+        ),
+        recieve: Number(
+          parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+        ),
         // fine: args.dataItem.fine,
         fine:
-          ((Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)) -
-            Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3))) *
-            Number(parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3))) /
+          ((Number(
+            parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+          ) -
+            Number(
+              parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
+            )) *
+            Number(
+              parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)
+            )) /
           100,
         createdOn: Date.now().toString(),
         isdeleted: false,
       };
-
-      console.log('Edited VAlues');
-      console.log(Body);
 
       this.spinner.showLoader();
       this.api.EditMasterData(Body).subscribe((res: any) => {
@@ -253,4 +273,33 @@ export class DataGridComponent implements OnInit {
     });
     this.spinner.hideLoader();
   }
+
+
+  // In Cell Editng For Random Editing
+
+  public cellClickHandler(args: CellClickEvent) {
+    // this.DataForm
+    this.isNew = false;
+    this.DataForm = new FormGroup({
+      id: new FormControl(args.dataItem.id, []),
+      date: new FormControl(new Date(args.dataItem.date), [
+        Validators.required,
+      ]),
+      fine: new FormControl(args.dataItem.fine, []),
+      issue: new FormControl(args.dataItem.issue, [Validators.required]),
+      loss: new FormControl(args.dataItem.loss, []),
+      pick: new FormControl(args.dataItem.pick, [Validators.required]),
+      touch: new FormControl(args.dataItem.touch, [Validators.required]),
+      recieve: new FormControl(args.dataItem.recieve, [Validators.required]),
+      // other fields
+    });
+
+    args.sender.editCell(args.rowIndex, args.columnIndex, this.DataForm);
+  }
+
+  public cellCloseHandler(args: CellCloseEvent) {
+    this.isNew = false;
+    this.saveHandler(args);
+  }
+
 }

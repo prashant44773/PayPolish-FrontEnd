@@ -7,11 +7,14 @@ import {
   CancelEvent,
   GridComponent,
   SaveEvent,
+  CellCloseEvent,
+  CellClickEvent,
 } from '@progress/kendo-angular-grid';
 import { MessageService } from '../../../services/message.service';
 import { Master } from 'src/app/Models/MasterModel';
 import { LoaderService } from 'src/app/services/loader.service';
 import { SeconService } from 'src/app/services/secon.service';
+import { DatetransService } from 'src/app/common/datetrans.service';
 
 @Component({
   selector: 'app-data-grid',
@@ -22,7 +25,8 @@ export class DataGridComponent {
   constructor(
     private api: SeconService,
     private spinner: LoaderService,
-    private notify: MessageService
+    private notify: MessageService,
+    public datepipe : DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -243,4 +247,32 @@ export class DataGridComponent {
     });
     this.spinner.hideLoader();
   }
+
+
+    // In Cell Editng For Random Editing
+
+    public cellClickHandler(args: CellClickEvent) {
+      // this.DataForm
+      this.isNew = false;
+      this.DataForm = new FormGroup({
+        id: new FormControl(args.dataItem.id, []),
+        date: new FormControl(new Date(args.dataItem.date), [
+          Validators.required,
+        ]),
+        fine: new FormControl(args.dataItem.fine, []),
+        issue: new FormControl(args.dataItem.issue, [Validators.required]),
+        loss: new FormControl(args.dataItem.loss, []),
+        pick: new FormControl(args.dataItem.pick, [Validators.required]),
+        touch: new FormControl(args.dataItem.touch, [Validators.required]),
+        recieve: new FormControl(args.dataItem.recieve, [Validators.required]),
+        // other fields
+      });
+  
+      args.sender.editCell(args.rowIndex, args.columnIndex, this.DataForm);
+    }
+  
+    public cellCloseHandler(args: CellCloseEvent) {
+      this.isNew = false;
+      this.saveHandler(args);
+    }
 }

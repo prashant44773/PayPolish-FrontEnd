@@ -1,0 +1,21 @@
+-- FUNCTION: pay.spgetbydatemaster(date, refcursor)
+
+-- DROP FUNCTION IF EXISTS pay.spgetbydatemaster(date, refcursor);
+
+CREATE OR REPLACE FUNCTION pay.spgetbydatemaster(
+	a_id date,
+	ref1 refcursor)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+	OPEN ref1 for
+		select * from pay.master where  p_date = a_id and isdeleted = false;
+	return ref1;
+END;
+$BODY$;
+
+ALTER FUNCTION pay.spgetbydatemaster(date, refcursor)
+    OWNER TO postgres;

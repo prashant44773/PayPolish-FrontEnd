@@ -7,11 +7,15 @@ import {
   CancelEvent,
   GridComponent,
   SaveEvent,
+  CellClickEvent,
+  CellCloseEvent,
 } from '@progress/kendo-angular-grid';
 import { MessageService } from '../../../services/message.service';
 import { Master } from 'src/app/Models/MasterModel';
 import { LoaderService } from 'src/app/services/loader.service';
 import { FinalService } from 'src/app/services/final.service';
+import { CreateFormGroupArgs } from '@progress/kendo-angular-grid';
+import { DatetransService } from 'src/app/common/datetrans.service';
 
 @Component({
   selector: 'app-data-grid',
@@ -22,7 +26,8 @@ export class DataGridComponent {
   constructor(
     private api: FinalService,
     private spinner: LoaderService,
-    private notify: MessageService
+    private notify: MessageService,
+    public datepipe : DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -125,9 +130,7 @@ export class DataGridComponent {
   }
 
   public saveHandler(args: SaveEvent): void {
-    
     if (this.isNew) {
-      
       let Body: Master = {
         id: args.dataItem.id,
         date: new Date(args.dataItem.date).toDateString().toString(),
@@ -163,23 +166,40 @@ export class DataGridComponent {
       this.spinner.hideLoader();
       this.isNew = false;
     } else {
-
       let Body: Master = {
         id: args.dataItem.id,
-        date: new Date(args.formGroup.get(['date'])?.value).toDateString().toString(),
-        issue: Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)),
+        date: new Date(args.formGroup.get(['date'])?.value)
+          .toDateString()
+          .toString(),
+        issue: Number(
+          parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
+        ),
         // loss: args.dataItem.loss,
         loss:
-          Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)) -
+          Number(
+            parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+          ) -
           Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)),
-        pick: Number(parseFloat(args.formGroup.get(['pick'])?.value).toFixed(3)),
-        touch: Number(parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)),
-        recieve: Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)),
+        pick: Number(
+          parseFloat(args.formGroup.get(['pick'])?.value).toFixed(3)
+        ),
+        touch: Number(
+          parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)
+        ),
+        recieve: Number(
+          parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+        ),
         // fine: args.dataItem.fine,
         fine:
-          ((Number(parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)) -
-            Number(parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3))) *
-            Number(parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3))) /
+          ((Number(
+            parseFloat(args.formGroup.get(['recieve'])?.value).toFixed(3)
+          ) -
+            Number(
+              parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
+            )) *
+            Number(
+              parseFloat(args.formGroup.get(['touch'])?.value).toFixed(3)
+            )) /
           100,
         createdOn: Date.now().toString(),
         isdeleted: false,
@@ -244,4 +264,34 @@ export class DataGridComponent {
     });
     this.spinner.hideLoader();
   }
+
+
+
+    // In Cell Editng For Random Editing
+
+    public cellClickHandler(args: CellClickEvent) {
+      // this.DataForm
+      this.isNew = false;
+      this.DataForm = new FormGroup({
+        id: new FormControl(args.dataItem.id, []),
+        date: new FormControl(new Date(args.dataItem.date), [
+          Validators.required,
+        ]),
+        fine: new FormControl(args.dataItem.fine, []),
+        issue: new FormControl(args.dataItem.issue, [Validators.required]),
+        loss: new FormControl(args.dataItem.loss, []),
+        pick: new FormControl(args.dataItem.pick, [Validators.required]),
+        touch: new FormControl(args.dataItem.touch, [Validators.required]),
+        recieve: new FormControl(args.dataItem.recieve, [Validators.required]),
+        // other fields
+      });
+  
+      args.sender.editCell(args.rowIndex, args.columnIndex, this.DataForm);
+    }
+  
+    public cellCloseHandler(args: CellCloseEvent) {
+      this.isNew = false;
+      this.saveHandler(args);
+    }
+
 }

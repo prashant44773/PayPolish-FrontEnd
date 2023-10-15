@@ -11,7 +11,7 @@ CREATE OR REPLACE FUNCTION pay.spgetuniquedates(
 AS $BODY$
 BEGIN
 	open ref1 for
-			select distinct(p_date)::Date,p_id,p_recieve,p_issue,p_pick,p_touch,p_loss,p_fine,isdeleted,createdon from pay.master
+			select distinct(p_date)::Date from pay.master
 			where  p_date between CURRENT_DATE - 30 and  CURRENT_DATE and isdeleted is false order by 1 desc;
 	return ref1;
 END;
