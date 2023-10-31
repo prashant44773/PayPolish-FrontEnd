@@ -43,7 +43,8 @@ export class ReadGridComponent {
     this.api.GetMasterData().subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;
@@ -67,7 +68,8 @@ export class ReadGridComponent {
     this.api.GetUniqueDatesData().subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       if (res[0].id > 0) {

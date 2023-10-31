@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\AnanthaCreators_Project\\PayPolish\\PayPolish\\PayPolish.csproj": {}
+    "F:\\PayPolish\\Project_paypolish\\PayPolish\\PayPolish\\PayPolish.csproj": {}
   },
   "projects": {
-    "E:\\AnanthaCreators_Project\\PayPolish\\PayPolish\\PayPolish.csproj": {
+    "F:\\PayPolish\\Project_paypolish\\PayPolish\\PayPolish\\PayPolish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\AnanthaCreators_Project\\PayPolish\\PayPolish\\PayPolish.csproj",
+        "projectUniqueName": "F:\\PayPolish\\Project_paypolish\\PayPolish\\PayPolish\\PayPolish.csproj",
         "projectName": "PayPolish",
-        "projectPath": "E:\\AnanthaCreators_Project\\PayPolish\\PayPolish\\PayPolish.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\AnanthaCreators_Project\\PayPolish\\PayPolish\\obj\\",
+        "projectPath": "F:\\PayPolish\\Project_paypolish\\PayPolish\\PayPolish\\PayPolish.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "F:\\PayPolish\\Project_paypolish\\PayPolish\\PayPolish\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -72,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.416\\RuntimeIdentifierGraph.json"
         }
       }
     }

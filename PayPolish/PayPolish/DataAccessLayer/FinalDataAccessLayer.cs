@@ -9,14 +9,14 @@ namespace PayPolish.DataAccessLayer
         #region Get Connection String
         public NpgsqlConnection Connect()
         {
-            string str = "Server=localhost;Username=postgres;Database=PayPolish;Port=5432;Password=admin;";
+            string str = "Server=localhost;Username=postgres;Database=PayPolish;Port=5000;Password=ram;";
             return new NpgsqlConnection(str);
         }
         #endregion
 
         #region Get Master Data
         public List<MasterModel> GetMasterData(out bool status)
-        {
+        { 
             List<MasterModel> master = new List<MasterModel>();
             NpgsqlConnection con = Connect();
             DataTable table = new DataTable();
@@ -36,6 +36,7 @@ namespace PayPolish.DataAccessLayer
                           select new MasterModel
                           {
                               ID = (int)row["p_id"],
+                              Type = row["p_type"].ToString(),
                               Date = row["p_date"].ToString(),
                               Recieve = (float)(decimal)row["p_recieve"],
                               Issue = (float)(decimal)row["p_issue"],
@@ -73,7 +74,7 @@ namespace PayPolish.DataAccessLayer
             try
             {
                 DataSet dt = new DataSet();
-                string Query = @$"select final.spaddmaster('{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
+                string Query = @$"select final.spaddmaster('{data.Type}','{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
 
                 con.Open();
                 NpgsqlCommand adapter = new NpgsqlCommand(Query, con);
@@ -105,7 +106,7 @@ namespace PayPolish.DataAccessLayer
             try
             {
                 DataSet dt = new DataSet();
-                string Query = @$"select final.spupdatemaster('{data.ID}','{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
+                string Query = @$"select final.spupdatemaster('{data.ID}','{data.Type}','{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
 
                 con.Open();
                 NpgsqlCommand adapter = new NpgsqlCommand(Query, con);
@@ -185,6 +186,7 @@ namespace PayPolish.DataAccessLayer
                           select new MasterModel
                           {
                               ID = (int)row["p_id"],
+                              Type = row["p_type"].ToString(),
                               Date = row["p_date"].ToString(),
                               Recieve = (float)(decimal)row["p_recieve"],
                               Issue = (float)(decimal)row["p_issue"],
@@ -238,6 +240,7 @@ namespace PayPolish.DataAccessLayer
                           select new MasterModel
                           {
                               ID = (int)row["p_id"],
+                              Type = row["p_type"].ToString(),
                               Date = row["p_date"].ToString(),
                               Recieve = (float)(decimal)row["p_recieve"],
                               Issue = (float)(decimal)row["p_issue"],
@@ -289,6 +292,7 @@ namespace PayPolish.DataAccessLayer
                           select new MasterModel
                           {
                               ID = 0,
+                              Type = "",
                               Date = row["p_date"].ToString(),
                               Recieve = 0,
                               Issue = 0,

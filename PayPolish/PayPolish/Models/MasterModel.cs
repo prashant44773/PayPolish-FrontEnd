@@ -3,6 +3,7 @@
     public class MasterModel
     {
         public int ID { get; set; }
+        public string Type { get; set; }
         public  string Date { get; set; }
         public float Recieve { get; set; }
         public float Issue { get; set; }

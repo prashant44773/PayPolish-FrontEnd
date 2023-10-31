@@ -1,33 +1,36 @@
-.navContent{
-    margin-right: 10px;
-    width: 30%;
-  }
-  
-  .NavItem{
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: large;
-    color: white;
-  }
-  
-  .NavItem:hover{
-    color: #f6931D;
-  }
-  .logoTitle{
-    margin-left: 40px;
-  }
-  
-  .logoName{
-    margin-top: 2px;
-    margin-left: 15px;
-    font-size: 1.3rem;
-  }
-  
-  .imgContainer{
-    border-radius: 7%;
-  }
-  
-  
-  .activeClass{
-    color: #f6931D;
-  }
+nav{
+  width: 115%;
+}
+
+.navContent {
+  margin-right: 10px;
+  width: 30%;
+}
+
+.NavItem {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: large;
+  color: white;
+}
+
+.NavItem:hover {
+  color: #f6931d;
+}
+.logoTitle {
+  margin-left: 40px;
+}
+
+.logoName {
+  margin-top: 2px;
+  margin-left: 15px;
+  font-size: 1.3rem;
+}
+
+.imgContainer {
+  border-radius: 7%;
+}
+
+.activeClass {
+  color: #f6931d;
+}

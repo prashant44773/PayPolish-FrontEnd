@@ -21,14 +21,14 @@ import { MessageService } from 'src/app/services/message.service';
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
   styleUrls: ['./data-grid.component.css'],
-  providers:[DatePipe]
+  providers: [DatePipe],
 })
 export class DataGridComponent implements OnInit {
   constructor(
     private api: ApiService,
     private spinner: LoaderService,
     private notify: MessageService,
-    public datepipe : DatetransService
+    public datepipe: DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +55,7 @@ export class DataGridComponent implements OnInit {
       date: new FormControl(new Date(new Date().toDateString()), [
         Validators.required,
       ]),
+      type: new FormControl(null, [Validators.required]),
       fine: new FormControl(0, []),
       issue: new FormControl(0, [Validators.required]),
       loss: new FormControl(0, []),
@@ -75,6 +76,7 @@ export class DataGridComponent implements OnInit {
       date: new FormControl(new Date(args.dataItem.date), [
         Validators.required,
       ]),
+      type: new FormControl(args.dataItem.type, [Validators.required]),
       fine: new FormControl(args.dataItem.fine, []),
       issue: new FormControl(args.dataItem.issue, [Validators.required]),
       loss: new FormControl(args.dataItem.loss, []),
@@ -94,6 +96,7 @@ export class DataGridComponent implements OnInit {
     let Body: Master = {
       id: args.dataItem.id,
       date: args.dataItem.date,
+      type: args.dataItem.type,
       recieve: args.dataItem.recieve,
       issue: args.dataItem.issue,
       loss: args.dataItem.loss,
@@ -144,6 +147,7 @@ export class DataGridComponent implements OnInit {
       let Body: Master = {
         id: args.dataItem.id,
         date: new Date(args.dataItem.date).toDateString().toString(),
+        type: args.dataItem.type,
         issue: Number(parseFloat(args.dataItem.issue).toFixed(3)),
         // loss: args.dataItem.loss,
         loss:
@@ -180,6 +184,7 @@ export class DataGridComponent implements OnInit {
         date: new Date(args.formGroup.get(['date'])?.value)
           .toDateString()
           .toString(),
+        type: args.formGroup.get(['type'])?.value,
         issue: Number(
           parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
         ),
@@ -257,7 +262,8 @@ export class DataGridComponent implements OnInit {
     this.api.GetMasterData().subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       if (res[0].id > 0) {
@@ -267,13 +273,14 @@ export class DataGridComponent implements OnInit {
         this.spinner.hideLoader();
         this.notify.showMessage('Your Data Store is Empty ! Add Some Records.');
       }
+      console.log(res);
+
       this.gridData = res;
       this.ResetFooterValues();
       this.FooterValues();
     });
     this.spinner.hideLoader();
   }
-
 
   // In Cell Editng For Random Editing
 
@@ -285,6 +292,7 @@ export class DataGridComponent implements OnInit {
       date: new FormControl(new Date(args.dataItem.date), [
         Validators.required,
       ]),
+      type: new FormControl(args.dataItem.type, [Validators.required]),
       fine: new FormControl(args.dataItem.fine, []),
       issue: new FormControl(args.dataItem.issue, [Validators.required]),
       loss: new FormControl(args.dataItem.loss, []),
@@ -302,4 +310,50 @@ export class DataGridComponent implements OnInit {
     this.saveHandler(args);
   }
 
+
+  KeyBoardEvents(e: any, grid: GridComponent) {
+    if (e.keyCode == 43) {
+      // NumPad + , For Adding New Record
+      this.isNew = true;
+      this.DataForm = new FormGroup({
+        id: new FormControl(0, []),
+        date: new FormControl(new Date(new Date().toDateString()), [
+          Validators.required,
+        ]),
+        type: new FormControl(null, [Validators.required]),
+        fine: new FormControl(null, []),
+        issue: new FormControl(null, [Validators.required]),
+        loss: new FormControl(null, []),
+        pick: new FormControl(null, [Validators.required]),
+        touch: new FormControl(null, [Validators.required]),
+        recieve: new FormControl(null, [Validators.required]),
+      });
+      grid.addRow(this.DataForm);
+    }
+
+    // NumpadMultiply , For Saving Record
+    if (e.keyCode == 42) {
+      let dt: SaveEvent = {
+        dataItem: this.DataForm.value,
+        isNew: true,
+        formGroup: this.DataForm,
+        sender: grid,
+        rowIndex: 0,
+      };
+      this.isNew = true;
+      this.saveHandler(dt);
+    }
+
+    // Cancel Key
+    if (e.keyCode == 45) {
+      let dt: CancelEvent = {
+        dataItem: this.DataForm.value,
+        isNew: true,
+        formGroup: this.DataForm,
+        sender: grid,
+        rowIndex: -1,
+      };
+      this.cancelHandler(dt);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
-<div class="MainContainer">
-  <kendo-grid
+<div class="MainContainer" (keypress)="KeyBoardEvents($event,grid)" >
+<!-- <div class="MainContainer" > -->
+  <kendo-grid #grid
     [data]="gridData"
     (edit)="editHandler($event)"
     (remove)="removeHandler($event)"
@@ -46,6 +47,16 @@
     <ng-template kendoGridCellTemplate let-dataItem>
       {{datepipe.getDate(dataItem.date)}}
     </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column
+      field="type"
+      title="Type"
+      [headerStyle]="{
+        'background-color': 'rgb(246 204 33)',
+        color: 'white',
+        'border-color': 'white'
+      }"
+    >
     </kendo-grid-column>
     <kendo-grid-column
       field="recieve"
@@ -162,11 +173,13 @@
         <button kendoGridRemoveCommand class="Delbtn">
           <i class="bi bi-trash-fill delicon" id="md"></i> Remove
         </button>
-        <button kendoGridSaveCommand [primary]="true" class="UpBtn">
+
+        <button kendoGridSaveCommand [primary]="true" class="UpBtn" >
           <i class="bi bi-upload upicon" id="mu"></i>
           {{ isNew ? "Add" : "Update" }}
         </button>
-        <button kendoGridCancelCommand class="Delbtn">
+
+        <button kendoGridCancelCommand class="Delbtn" >
           <i class="bi bi-x-circle-fill delicon" id="md"></i>
           {{ isNew ? "Discard" : "Cancel" }}
         </button>

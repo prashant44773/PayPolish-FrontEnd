@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
-<div class="MainContainer">
-  <kendo-grid
+<div class="MainContainer" (keypress)="KeyBoardEvents($event,grid)">
+<!-- <div class="MainContainer"> -->
+  <kendo-grid #grid
     [data]="gridData"
     (edit)="editHandler($event)"
     (remove)="removeHandler($event)"
@@ -47,6 +48,16 @@
       {{datepipe.getDate(dataItem.date)}}
     </ng-template>
     </kendo-grid-column>
+    <kendo-grid-column
+    field="type"
+    title="Type"
+    [headerStyle]="{
+      'background-color': 'rgb(246 204 33)',
+      color: 'white',
+      'border-color': 'white'
+    }"
+  >
+  </kendo-grid-column>
     <kendo-grid-column
       field="recieve"
       title="Recieve"

@@ -1,5 +1,6 @@
 export class Master{
   id:any;
+  type:any;
   date:any;
   fine:any;
   issue:any;

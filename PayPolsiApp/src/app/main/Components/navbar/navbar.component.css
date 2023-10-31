@@ -1,3 +1,7 @@
+nav{
+width: 115%;
+}
+
 .navContent{
   margin-right: 10px;
   width: 30%;
@@ -31,4 +35,4 @@
 .activeClass{
   color: #f6931D;
 }
- 
+

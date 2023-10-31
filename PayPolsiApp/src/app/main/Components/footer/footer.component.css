@@ -3,6 +3,9 @@
   @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 
+footer{
+  width: 115%;
+}
 .cont{
     width: 80%;
     height: 14vh;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   AddEvent,
@@ -27,7 +27,7 @@ export class DataGridComponent {
     private api: FinalService,
     private spinner: LoaderService,
     private notify: MessageService,
-    public datepipe : DatetransService
+    public datepipe: DatetransService
   ) {}
 
   ngOnInit(): void {
@@ -54,12 +54,13 @@ export class DataGridComponent {
       date: new FormControl(new Date(new Date().toDateString()), [
         Validators.required,
       ]),
-      fine: new FormControl(0, []),
-      issue: new FormControl(0, [Validators.required]),
-      loss: new FormControl(0, []),
-      pick: new FormControl(0, [Validators.required]),
-      touch: new FormControl(0, [Validators.required]),
-      recieve: new FormControl(0, [Validators.required]),
+      type: new FormControl(null, [Validators.required]),
+      fine: new FormControl(null, []),
+      issue: new FormControl(null, [Validators.required]),
+      loss: new FormControl(null, []),
+      pick: new FormControl(null, [Validators.required]),
+      touch: new FormControl(null, [Validators.required]),
+      recieve: new FormControl(null, [Validators.required]),
     });
 
     args.sender.addRow(this.DataForm);
@@ -72,6 +73,7 @@ export class DataGridComponent {
       date: new FormControl(new Date(args.dataItem.date), [
         Validators.required,
       ]),
+      type: new FormControl(args.dataItem.type, [Validators.required]),
       fine: new FormControl(args.dataItem.fine, []),
       issue: new FormControl(args.dataItem.issue, [Validators.required]),
       loss: new FormControl(args.dataItem.loss, []),
@@ -91,6 +93,7 @@ export class DataGridComponent {
     let Body: Master = {
       id: args.dataItem.id,
       date: args.dataItem.date,
+      type: args.dataItem.type,
       recieve: args.dataItem.recieve,
       issue: args.dataItem.issue,
       loss: args.dataItem.loss,
@@ -120,6 +123,7 @@ export class DataGridComponent {
 
   public cancelHandler(args: CancelEvent): void {
     // close the editor for the given row
+    console.log(args);
     this.isNew = false;
     this.closeEditor(args.sender, args.rowIndex);
   }
@@ -131,9 +135,11 @@ export class DataGridComponent {
 
   public saveHandler(args: SaveEvent): void {
     if (this.isNew) {
+      console.log('Add');
       let Body: Master = {
         id: args.dataItem.id,
         date: new Date(args.dataItem.date).toDateString().toString(),
+        type: args.dataItem.type,
         // Number(parseFloat(args.dataItem.issue).toFixed(3))
         issue: Number(parseFloat(args.dataItem.issue).toFixed(3)),
         // loss: args.dataItem.loss,
@@ -171,6 +177,7 @@ export class DataGridComponent {
         date: new Date(args.formGroup.get(['date'])?.value)
           .toDateString()
           .toString(),
+        type: args.formGroup.get(['type'])?.value,
         issue: Number(
           parseFloat(args.formGroup.get(['issue'])?.value).toFixed(3)
         ),
@@ -248,7 +255,8 @@ export class DataGridComponent {
     this.api.GetMasterData().subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       if (res[0].id > 0) {
@@ -265,33 +273,78 @@ export class DataGridComponent {
     this.spinner.hideLoader();
   }
 
+  // In Cell Editng For Random Editing
+
+  public cellClickHandler(args: CellClickEvent) {
+    // this.DataForm
+    this.isNew = false;
+    this.DataForm = new FormGroup({
+      id: new FormControl(args.dataItem.id, []),
+      date: new FormControl(new Date(args.dataItem.date), [
+        Validators.required,
+      ]),
+      type: new FormControl(args.dataItem.type, [Validators.required]),
+      fine: new FormControl(args.dataItem.fine, []),
+      issue: new FormControl(args.dataItem.issue, [Validators.required]),
+      loss: new FormControl(args.dataItem.loss, []),
+      pick: new FormControl(args.dataItem.pick, [Validators.required]),
+      touch: new FormControl(args.dataItem.touch, [Validators.required]),
+      recieve: new FormControl(args.dataItem.recieve, [Validators.required]),
+      // other fields
+    });
+
+    args.sender.editCell(args.rowIndex, args.columnIndex, this.DataForm);
+  }
+
+  public cellCloseHandler(args: CellCloseEvent) {
+    this.isNew = false;
+    this.saveHandler(args);
+  }
 
 
-    // In Cell Editng For Random Editing
-
-    public cellClickHandler(args: CellClickEvent) {
-      // this.DataForm
-      this.isNew = false;
+  KeyBoardEvents(e: any, grid: GridComponent) {
+    if (e.keyCode == 43) {
+      // NumPad + , For Adding New Record
+      this.isNew = true;
       this.DataForm = new FormGroup({
-        id: new FormControl(args.dataItem.id, []),
-        date: new FormControl(new Date(args.dataItem.date), [
+        id: new FormControl(0, []),
+        date: new FormControl(new Date(new Date().toDateString()), [
           Validators.required,
         ]),
-        fine: new FormControl(args.dataItem.fine, []),
-        issue: new FormControl(args.dataItem.issue, [Validators.required]),
-        loss: new FormControl(args.dataItem.loss, []),
-        pick: new FormControl(args.dataItem.pick, [Validators.required]),
-        touch: new FormControl(args.dataItem.touch, [Validators.required]),
-        recieve: new FormControl(args.dataItem.recieve, [Validators.required]),
-        // other fields
+        type: new FormControl(null, [Validators.required]),
+        fine: new FormControl(null, []),
+        issue: new FormControl(null, [Validators.required]),
+        loss: new FormControl(null, []),
+        pick: new FormControl(null, [Validators.required]),
+        touch: new FormControl(null, [Validators.required]),
+        recieve: new FormControl(null, [Validators.required]),
       });
-  
-      args.sender.editCell(args.rowIndex, args.columnIndex, this.DataForm);
-    }
-  
-    public cellCloseHandler(args: CellCloseEvent) {
-      this.isNew = false;
-      this.saveHandler(args);
+      grid.addRow(this.DataForm);
     }
 
+    // NumpadMultiply , For Saving Record
+    if (e.keyCode == 42) {
+      let dt: SaveEvent = {
+        dataItem: this.DataForm.value,
+        isNew: true,
+        formGroup: this.DataForm,
+        sender: grid,
+        rowIndex: 0,
+      };
+      this.isNew = true;
+      this.saveHandler(dt);
+    }
+
+    // Cancel Key
+    if (e.keyCode == 45) {
+      let dt: CancelEvent = {
+        dataItem: this.DataForm.value,
+        isNew: true,
+        formGroup: this.DataForm,
+        sender: grid,
+        rowIndex: -1,
+      };
+      this.cancelHandler(dt);
+    }
+  }
 }
