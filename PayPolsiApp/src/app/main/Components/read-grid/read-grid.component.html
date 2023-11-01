@@ -10,6 +10,7 @@
         [data]="UniqueDateData"
         (edit)="DateFilter($event)"
         [sortable]="true"
+        [style.maxHeight.vh]="99"
       >
         <ng-template kendoGridToolbarTemplate>
           <button
@@ -60,7 +61,7 @@
     </div>
 
     <div class="mainGrid">
-      <kendo-grid [data]="gridData" [sortable]="true">
+      <kendo-grid [data]="gridData" [sortable]="true" [style.maxHeight.vh]="99">
         <ng-template kendoGridToolbarTemplate>
           <button kendoGridPDFCommand class="Editbtn">
             <i class="bi bi-printer-fill editicon" id="me"></i> Save As PDF
@@ -81,6 +82,17 @@
         <ng-template kendoGridCellTemplate let-dataItem>
           {{datepipe.getDate(dataItem.date)}}
         </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="type"
+          title="Type"
+          [width]="140"
+          [headerStyle]="{
+            'background-color': 'rgb(246 204 33)',
+            color: 'white',
+            'border-color': 'white'
+          }"
+        >
         </kendo-grid-column>
         <kendo-grid-column
           field="recieve"
@@ -160,7 +172,7 @@
         <kendo-grid-column
           field="fine"
           title="Fine"
-          [width]="140"
+          [width]="160"
           [headerStyle]="{
             'background-color': 'rgb(246 204 33)',
             color: 'white',

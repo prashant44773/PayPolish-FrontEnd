@@ -164,7 +164,7 @@
   min-width: 115%;
   /* max-width: auto; */
   min-height: 100vh;
-  /* max-height: auto; */
+  max-height: 100vh;
   /* margin-top: 2px; */
   display: flex;
   align-items: flex-start;

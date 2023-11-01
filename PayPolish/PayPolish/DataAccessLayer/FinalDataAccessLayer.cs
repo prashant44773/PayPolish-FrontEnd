@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using PayPolish.Models;
+using System;
 using System.Data;
 
 namespace PayPolish.DataAccessLayer
@@ -224,6 +225,12 @@ namespace PayPolish.DataAccessLayer
 
             try
             {
+                /*                int day = Convert.ToDateTime(data.Current).Day;
+                                int month = Convert.ToDateTime(data.Current).Month;
+                                int year = Convert.ToDateTime(data.Current).Year;
+
+                                DateTime current = new DateTime(year,month,day);*/
+
                 DateTime current = Convert.ToDateTime(data.Current);
 
                 DataSet dt = new DataSet();

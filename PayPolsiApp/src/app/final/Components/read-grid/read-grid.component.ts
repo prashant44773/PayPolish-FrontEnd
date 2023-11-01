@@ -113,7 +113,8 @@ export class ReadGridComponent {
     console.log(text);
 
     let Body: DateModle = {
-      Current: event.dataItem.date.toString(),
+      // Current: event.dataItem.date.toString(),
+      Current: new Date(event.dataItem.date),
       Previous: new Date().toString(),
     };
 
@@ -121,7 +122,8 @@ export class ReadGridComponent {
     this.api.FilterByDateMasterData(Body).subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;
@@ -156,7 +158,8 @@ export class ReadGridComponent {
     this.api.FilterMasterData(Body).subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
-        res[count].date = new Date(res[count].date).toDateString();
+        // res[count].date = new Date(res[count].date).toDateString();
+        res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;

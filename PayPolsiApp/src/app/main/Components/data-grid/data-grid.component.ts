@@ -232,6 +232,9 @@ export class DataGridComponent implements OnInit {
       this.spinner.hideLoader();
     }
     this.closeEditor(args.sender, args.rowIndex);
+
+    // Close New Add Row
+    this.closeNewRecordAfterSave(args);
   }
 
   // Footer Values
@@ -310,7 +313,6 @@ export class DataGridComponent implements OnInit {
     this.saveHandler(args);
   }
 
-
   KeyBoardEvents(e: any, grid: GridComponent) {
     if (e.keyCode == 43) {
       // NumPad + , For Adding New Record
@@ -355,5 +357,17 @@ export class DataGridComponent implements OnInit {
       };
       this.cancelHandler(dt);
     }
+  }
+
+  // Helper Functions
+
+  // Close Add New RecordAfter Saving with Keyboard
+
+  closeNewRecordAfterSave(args: any) {
+    // Extra Logic For Closing New Field After Save through KeyBoard
+    let fireEvent: CancelEvent = args;
+    fireEvent.rowIndex = -1;
+    this.cancelHandler(fireEvent);
+    this.DataForm.reset();
   }
 }

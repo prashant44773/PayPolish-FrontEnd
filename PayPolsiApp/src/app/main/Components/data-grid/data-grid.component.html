@@ -9,11 +9,10 @@
     (cancel)="cancelHandler($event)"
     [resizable]="true"
     (save)="saveHandler($event)"
-    [pageSize]="10"
-    [pageable]="true"
     [navigable]="true"
     (cellClick)="cellClickHandler($event)"
     (cellClose)="cellCloseHandler($event)"
+    [style.maxHeight.vh]="99"
   >
     <ng-template kendoGridToolbarTemplate>
       <button kendoGridAddCommand [primary]="true" class="myBtn">
@@ -139,7 +138,7 @@
     <kendo-grid-column
       field="fine"
       title="Fine"
-      [width]="150"
+      [width]="180"
       [editable]="false"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
