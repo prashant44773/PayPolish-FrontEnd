@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+
+  @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+
+/* SnackBar */
+
+.snack{
+  background-color: #2196F3 !important;
+  color: chocolate;
+  border-radius: 50%;
+}
+
+
+.post-dialog-container .mat-dialog-container {
+  background-color: var(--background);
+  box-shadow: none;
+padding: 0px !important;
+overflow: hidden !important;
+}
+
+.reload {
+  color: #f0fff3;
+  background-color: hotpink;
+}
+
+
+
+/* .k-grid tbody > tr:hover td:first-child{
+  border-left: solid rgb(136, 136, 136);
+}
+.k-grid tbody > tr:hover td:last-child{
+  border-right: solid rgb(136, 136, 136);
+}
+.k-grid tbody > tr:hover td{
+  border-top: solid rgb(136, 136, 136);
+  border-bottom: solid rgb(136, 136, 136);
+} */
+

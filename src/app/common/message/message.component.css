@@ -1,0 +1,21 @@
+.LoaderCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: large;
+}
+
+.success{
+  color: cornflowerblue;
+}
+
+.error{
+  color: rgb(249, 56, 185);
+}
+
+.testing{
+  background-color: blueviolet
+};

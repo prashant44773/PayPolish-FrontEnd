@@ -1,0 +1,7 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.LoaderCont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

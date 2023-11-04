@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+footer{
+width: 115%;
+}
+
+.cont{
+  width: 80%;
+  height: 14vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.companyName{
+  font-size: 1.5rem;
+  font-family: 'Major Mono Display', monospace;
+}
+
+.emailName{
+  font-size: 1.1rem;
+  color: #f6931D;
+  /* font-family: 'Major Mono Display', monospace; */
+}
