@@ -1,0 +1,12 @@
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\PayPolish.exe
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\appsettings.json
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\PayPolish.dll
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\PayPolish.deps.json
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\PayPolish.runtimeconfig.json
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\PayPolish.pdb
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\Npgsql.dll
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+F:\PayPolish\Project_paypolish\PayPolish\PayPolish\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

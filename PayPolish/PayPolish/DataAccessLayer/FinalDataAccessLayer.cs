@@ -2,6 +2,7 @@
 using PayPolish.Models;
 using System;
 using System.Data;
+using System.Globalization;
 
 namespace PayPolish.DataAccessLayer
 {
@@ -10,7 +11,8 @@ namespace PayPolish.DataAccessLayer
         #region Get Connection String
         public NpgsqlConnection Connect()
         {
-            string str = "Server=localhost;Username=postgres;Database=PayPolish;Port=5000;Password=ram;";
+            /*string str = "Server=localhost;Username=postgres;Database=PayPolish;Port=5000;Password=ram;";*/
+            string str = "Server=dpg-cl1na40p2gis73ffeq3g-a.oregon-postgres.render.com;Username=prashant;Database=PayPolish;Port=5432;Password=H8Rvy0XgZz9mFOsx8rkiiJIGYh6ojmF5;";
             return new NpgsqlConnection(str);
         }
         #endregion
@@ -74,6 +76,8 @@ namespace PayPolish.DataAccessLayer
             DataTable table = new DataTable();
             try
             {
+                data.Date = Convert.ToDateTime(data.Date).Date.ToString("yyyy-MM-dd");
+
                 DataSet dt = new DataSet();
                 string Query = @$"select final.spaddmaster('{data.Type}','{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
 
@@ -106,6 +110,8 @@ namespace PayPolish.DataAccessLayer
             DataTable table = new DataTable();
             try
             {
+                /*data.Date = Convert.ToDateTime(data.Date).Date.ToString("yyyy-MM-dd");*/
+
                 DataSet dt = new DataSet();
                 string Query = @$"select final.spupdatemaster('{data.ID}','{data.Type}','{data.Date}','{data.Recieve}','{data.Issue}','{data.Pick}','{data.Touch}','{data.Loss}','{data.Fine}');";
 
@@ -225,13 +231,9 @@ namespace PayPolish.DataAccessLayer
 
             try
             {
-                /*                int day = Convert.ToDateTime(data.Current).Day;
-                                int month = Convert.ToDateTime(data.Current).Month;
-                                int year = Convert.ToDateTime(data.Current).Year;
+                DateTime current = Convert.ToDateTime(data.Current).Date.AddDays(1);
 
-                                DateTime current = new DateTime(year,month,day);*/
-
-                DateTime current = Convert.ToDateTime(data.Current);
+                /*string current = data.Current;*/
 
                 DataSet dt = new DataSet();
                 string Query = @$"select final.spgetbydatemaster('{current}','ref1');FETCH ALL IN ""ref1"";";

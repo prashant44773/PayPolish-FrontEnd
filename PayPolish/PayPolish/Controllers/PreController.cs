@@ -10,99 +10,99 @@ namespace PayPolish.Controllers
     public class PreController : ControllerBase
     {
         [HttpGet("GetMasterData")]
-        public List<MasterModel> GetMasterData()
+        public IActionResult GetMasterData()
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             List<MasterModel> master = MDA.GetMasterData(out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                return new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
         [HttpPost("AddMasterData")]
-        public bool AddMasterData([FromBody] MasterModel data)
+        public IActionResult AddMasterData([FromBody] MasterModel data)
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             bool master = MDA.AddMasterData(data, out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
 
         [HttpPost("EditMasterData")]
-        public bool EditMasterData([FromBody] MasterModel data)
+        public IActionResult EditMasterData([FromBody] MasterModel data)
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             bool master = MDA.EditMasterData(data, out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
 
         [HttpPost("DeleteMasterData")]
-        public bool DeleteMasterData([FromBody] MasterModel data)
+        public IActionResult DeleteMasterData([FromBody] MasterModel data)
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             bool master = MDA.DeleteMasterData(data, out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
 
         [HttpPost("FilterMasterData")]
-        public List<MasterModel> FilterMasterData([FromBody] DateModel data)
+        public IActionResult FilterMasterData([FromBody] DateModel data)
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             List<MasterModel> master = MDA.FilterMasterData(data, out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
 
         [HttpPost("FilterMasterByDate")]
-        public List<MasterModel> FilterMasterByDate([FromBody] DateModel data)
+        public IActionResult FilterMasterByDate([FromBody] DateModel data)
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             List<MasterModel> master = MDA.FilterMasterByDate(data, out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
 
 
         [HttpPost("GetUniqueDate")]
-        public List<MasterModel> GetUniqueDate()
+        public IActionResult GetUniqueDate()
         {
             bool status;
             PreDataAccessLayer MDA = new PreDataAccessLayer();
             List<MasterModel> master = MDA.GetUniqueDates(out status);
             if (status == false)
             {
-                /*return new StatusCodeResult(StatusCodes.Status500InternalServerError);*/
+                new JsonResult(new StatusCodeResult(StatusCodes.Status500InternalServerError));
             }
-            return master;
+            return new JsonResult(master);
         }
     }
 }
