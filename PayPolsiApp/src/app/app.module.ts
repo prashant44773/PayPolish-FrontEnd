@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { GridModule , PDFModule} from "@progress/kendo-angular-grid";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { LabelModule } from '@progress/kendo-angular-label';
 import {ReactiveFormsModule} from '@angular/forms';
 import { LoaderComponent } from './common/loader/loader.component';
@@ -17,6 +17,10 @@ import { MessageComponent } from './common/message/message.component';
 import { HomeComponent } from './Home/home/home.component';
 import { ButtonsModule } from "@progress/kendo-angular-buttons";
 import { DatePipe } from '@angular/common';
+import { ErrorInterceptor } from './common/error.interceptor';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+import { InputsModule } from "@progress/kendo-angular-inputs";
+
 
 
 @NgModule({
@@ -39,9 +43,11 @@ import { DatePipe } from '@angular/common';
     MatToolbarModule,
     MatButtonModule,
     MatSnackBarModule,
-    ButtonsModule
+    ButtonsModule,
+    NotificationModule,
+    InputsModule
   ],
-  providers: [DatePipe],
+  providers: [DatePipe , {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

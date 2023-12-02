@@ -170,3 +170,47 @@
     align-items: flex-start;
     justify-content: center;
   };
+
+
+
+  /* Reload Btn */
+
+  .relicon{
+    font-size: 18px;
+    color:  #85C1E9;
+  }
+
+  .relicon:hover{
+    font-size: 18px;
+    color:  white;
+  }
+
+  #rel{
+    font-size: large;
+  }
+
+  .relBtn{
+  font-size: medium;
+    border-radius: 5%;
+    /* background-color: rgb(246, 204, 33); */
+    background-color: white;
+    border: 2px solid #85C1E9;
+    color: #85C1E9;
+  }
+
+  .relBtn:hover ,.relBtn:hover #rel{
+    border-radius: 5%;
+    background-color: #85C1E9;
+    color: white;
+    border: white;
+    transform:scale(1.1);
+    transition: 0.2s;
+  }
+
+  .filterDate{
+    border: 2px solid #f6931D;
+  }
+
+  .filterDate:hover{
+    border: 2px solid #58D68D;
+  }

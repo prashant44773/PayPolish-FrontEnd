@@ -6,6 +6,14 @@
     height: auto;
     text-align: center;
     font-size: large;
-    color: cornflowerblue;
-    /* background-color: cornflowerblue; */
 }
+
+.success{
+  color: cornflowerblue;
+}
+
+.error{
+  color: rgb(249, 56, 185);
+}
+
+

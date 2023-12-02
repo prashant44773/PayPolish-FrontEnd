@@ -19,14 +19,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { LayoutModule } from "@progress/kendo-angular-layout";
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CommanModule} from '../common/comman/comman.module';
 
 @NgModule({
   declarations: [
     DataGridComponent,
     ReadGridComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +44,9 @@ import {MatButtonModule} from '@angular/material/button';
     MatToolbarModule,
     LayoutModule,
     MatButtonModule,
-    GridModule
+    GridModule,
+    MatTooltipModule,
+    CommanModule
   ]
 })
 export class FinalModule { }

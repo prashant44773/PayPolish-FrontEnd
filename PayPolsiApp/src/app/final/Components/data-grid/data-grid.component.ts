@@ -9,6 +9,7 @@ import {
   SaveEvent,
   CellClickEvent,
   CellCloseEvent,
+  RowClassArgs,
 } from '@progress/kendo-angular-grid';
 import { MessageService } from '../../../services/message.service';
 import { Master } from 'src/app/Models/MasterModel';
@@ -16,6 +17,8 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { FinalService } from 'src/app/services/final.service';
 import { CreateFormGroupArgs } from '@progress/kendo-angular-grid';
 import { DatetransService } from 'src/app/common/datetrans.service';
+import { coerceStringArray } from '@angular/cdk/coercion';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-data-grid',
@@ -32,7 +35,16 @@ export class DataGridComponent {
 
   ngOnInit(): void {
     this.GetMasterDetails();
+    this.SearchSubs = this.datepipe.searchMessage$.subscribe((res: any) => {
+      this.isLoading = true;
+      this.gridData = this.datepipe.FilterLocalDate(this.MasterGridData, res);
+      this.isLoading = false;
+    });
   }
+
+  // Show Msg ON Initial Load
+  isInitialLoad: boolean = true;
+  isLoading: boolean = false;
 
   // Footer Values'
   FooterIssue: number = 0;
@@ -42,6 +54,8 @@ export class DataGridComponent {
   isNew: boolean = false;
 
   public gridData: Master[] = [];
+  public MasterGridData: Master[] = [];
+  public SearchSubs: Subscription | undefined;
 
   DataForm: FormGroup = new FormGroup({});
 
@@ -87,7 +101,6 @@ export class DataGridComponent {
   }
 
   public removeHandler(args: RemoveEvent): void {
-    // this.editService.remove(args.dataItem);
     this.isNew = false;
 
     let Body: Master = {
@@ -110,20 +123,20 @@ export class DataGridComponent {
     this.api.RemoveMasterData(Body).subscribe((res: any) => {
       if (res) {
         // this.GetMasterDetails();
-        this.notify.showMessage('Record Deleted !');
+        this.notify.showSuccessMsg('Record Deleted !');
       } else {
         // this.GetMasterDetails();
-        this.notify.showMessage('Some Error Ocuured ! Operation Failed.');
+        this.notify.showErrorMsg('Some Error Ocuured ! Operation Failed.');
       }
       this.gridData = [];
       this.GetMasterDetails();
     });
+    this.closeNewRecordAfterSave(args);
     this.spinner.hideLoader();
   }
 
   public cancelHandler(args: CancelEvent): void {
     // close the editor for the given row
-    console.log(args);
     this.isNew = false;
     this.closeEditor(args.sender, args.rowIndex);
   }
@@ -134,8 +147,14 @@ export class DataGridComponent {
   }
 
   public saveHandler(args: SaveEvent): void {
+    // this.spinner.showLoader();
+
+    if (this.DataForm.invalid) {
+      this.notify.showWarningMsg('Entered Details is not Valid');
+      return;
+    }
+
     if (this.isNew) {
-      console.log('Add');
       let Body: Master = {
         id: args.dataItem.id,
         date: new Date(args.dataItem.date).toDateString().toString(),
@@ -162,9 +181,9 @@ export class DataGridComponent {
       this.spinner.showLoader();
       this.api.AddMasterData(Body).subscribe((res: any) => {
         if (res) {
-          this.notify.showMessage('New Record Added !');
+          this.notify.showSuccessMsg('New Record Added !');
         } else {
-          this.notify.showMessage('Some Error Ocuured ! Operation Failed.');
+          this.notify.showErrorMsg('Some Error Ocuured ! Operation Failed.');
         }
         this.gridData = [];
         this.GetMasterDetails();
@@ -215,9 +234,9 @@ export class DataGridComponent {
       this.spinner.showLoader();
       this.api.EditMasterData(Body).subscribe((res: any) => {
         if (res) {
-          this.notify.showMessage('Current Record Updated !');
+          this.notify.showInfoMsg('Current Record Updated !');
         } else {
-          this.notify.showMessage('Some Error Ocuured ! Operation Failed.');
+          this.notify.showErrorMsg('Some Error Ocuured ! Operation Failed.');
         }
         this.gridData = [];
         this.GetMasterDetails();
@@ -228,6 +247,7 @@ export class DataGridComponent {
 
     // Close New Add Row
     this.closeNewRecordAfterSave(args);
+    // this.spinner.hideLoader();
   }
 
   // Footer Values
@@ -256,19 +276,25 @@ export class DataGridComponent {
   GetMasterDetails() {
     this.spinner.showLoader();
     this.api.GetMasterData().subscribe((res: any) => {
-      let count = 0;
-      res.forEach((val: any) => {
-        // res[count].date = new Date(res[count].date).toDateString();
-        res[count].date = this.datepipe.TransForm(res[count].date);
-        count++;
-      });
+      // let count = 0;
+      // res.forEach((val: any) => {
+      //   // res[count].date = new Date(res[count].date).toDateString();
+      //   // res[count].date = this.datepipe.TransForm(res[count].date);
+      //   count++;
+      // });
       if (res[0].id > 0) {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data is Loaded !');
+        if (this.isInitialLoad) {
+          this.notify.showInfoMsg('Your Data is Loaded !');
+          this.isInitialLoad = false;
+        }
       } else {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data Store is Empty ! Add Some Records.');
+        this.notify.showWarningMsg(
+          'Your Data Store is Empty ! Add Some Records.'
+        );
       }
+      this.MasterGridData = res;
       this.gridData = res;
       this.ResetFooterValues();
       this.FooterValues();
@@ -300,8 +326,13 @@ export class DataGridComponent {
   }
 
   public cellCloseHandler(args: CellCloseEvent) {
+    if (!this.datepipe.isValidEntries(args.formGroup)) {
+      this.notify.showWarningMsg('Please Enter Valid Numbers');
+      return;
+    }
     this.isNew = false;
-    this.saveHandler(args);
+    this.datepipe.activeCellFormGroup = args.formGroup;
+    this.datepipe.argsUpdate = args;
   }
 
   KeyBoardEvents(e: any, grid: GridComponent) {
@@ -344,9 +375,75 @@ export class DataGridComponent {
         isNew: true,
         formGroup: this.DataForm,
         sender: grid,
-        rowIndex: -1,
+        // rowIndex: -1,
+        rowIndex: grid.activeRow.dataRowIndex,
       };
       this.cancelHandler(dt);
+    }
+
+    // Delete Key , ` (BackQuote)
+    if (e.keyCode == 96) {
+      // let dt: RemoveEvent = {
+      //   dataItem: grid.activeCell.dataItem,
+      //   isNew: true,
+      //   // formGroup: this.DataForm,
+      //   sender: grid,
+      //   rowIndex: grid.activeCell.rowIndex,
+      // };
+      // this.removeHandler(dt);
+    }
+
+    // Enter , Move to Next Editable Cell
+    if (e.keyCode == 13) {
+      if (!this.isNew && this.datepipe.activeCellFormGroup.value.id > 0) {
+        if (!this.datepipe.isValidEntries(this.datepipe.activeCellFormGroup)) {
+          this.Reload();
+          return;
+        }
+
+        let update = this.datepipe.activeCellFormGroup.value;
+        let data = this.gridData.map((res: any) => {
+          if (update.id == res.id) {
+            res.date = new Date(update.date);
+            res.recieve = update.recieve;
+            res.issue = update.issue;
+            res.type = update.type;
+            res.pick = update.pick;
+            res.touch = update.touch;
+          }
+          return res;
+        });
+
+        this.gridData = data;
+
+        grid.editCell(
+          // grid.activeCell.rowIndex - 1,
+          // grid.activeCell.colIndex + 1,
+          grid.activeRow.dataRowIndex,
+          grid.focusNextCell().colIndex,
+          this.datepipe.activeCellFormGroup
+        );
+      } else {
+        grid.focusNextCell();
+      }
+    }
+  }
+
+  KeyUpEvents(e: any, grid: GridComponent) {
+    // Ctrl , Update Record
+    if (e.keyCode == 17) {
+      if (!this.isNew) {
+        this.saveHandler(this.datepipe.argsUpdate);
+      }
+    }
+
+    // SHIFT
+    if (e.keyCode == 16) {
+      grid.editCell(
+        grid.activeRow.dataRowIndex,
+        grid.focusPrevCell().colIndex,
+        this.datepipe.activeCellFormGroup
+      );
     }
   }
 
@@ -357,8 +454,21 @@ export class DataGridComponent {
   closeNewRecordAfterSave(args: any) {
     // Extra Logic For Closing New Field After Save through KeyBoard
     let fireEvent: CancelEvent = args;
-    fireEvent.rowIndex = -1;
+    // fireEvent.rowIndex = -1;
+    fireEvent.rowIndex = args.sender.activeCell.rowIndex - 1;
     this.cancelHandler(fireEvent);
+    this.closeEditor(args.sender, -1); // Close the Row After Saving New Record
     this.DataForm.reset();
+  }
+
+  Reload() {
+    this.isInitialLoad = true;
+    this.GetMasterDetails();
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.SearchSubs?.unsubscribe();
   }
 }

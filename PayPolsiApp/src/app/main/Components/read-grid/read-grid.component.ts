@@ -23,7 +23,7 @@ export class ReadGridComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.s
     //Add 'implements OnInit' to the class.
     this.GetMasterDetails();
-    this.GetUniqueDates();
+    // this.GetUniqueDates();
   }
 
   public gridData: Master[] = [];
@@ -43,7 +43,7 @@ export class ReadGridComponent {
       let count = 0;
       res.forEach((val: any) => {
         // res[count].date = new Date(res[count].date).toDateString();
-        res[count].date = this.datepipe.TransForm(res[count].date);
+        // res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;
@@ -51,10 +51,10 @@ export class ReadGridComponent {
       // console.log(res);
       if (res[0].id > 0) {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data is Loaded !');
+        this.notify.showInfoMsg('Your Data is Loaded !');
       } else {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data Store is Empty ! Add Some Records.');
+        this.notify.showErrorMsg('Your Data Store is Empty ! Add Some Records.');
       }
       this.ResetFooterValues();
       this.FooterValues();
@@ -68,15 +68,15 @@ export class ReadGridComponent {
       let count = 0;
       res.forEach((val: any) => {
         // res[count].date = new Date(res[count].date).toDateString();
-        res[count].date = this.datepipe.TransForm(res[count].date);
+        // res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
-      if (res[0].id > 0) {
+      if (res[0].id == 0) {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data is Loaded !');
+        this.notify.showInfoMsg('Your Data is Loaded !');
       } else {
         this.spinner.hideLoader();
-        this.notify.showMessage('Your Data Store is Empty ! Add Some Records.');
+        this.notify.showErrorMsg('Your Data Store is Empty ! Add Some Records.');
       }
       this.UniqueDateData = res;
     });
@@ -117,16 +117,18 @@ export class ReadGridComponent {
     };
 
     this.ResetFooterValues();
+    this.spinner.showLoader();
     this.api.FilterByDateMasterData(Body).subscribe((res: any) => {
       let count = 0;
       res.forEach((val: any) => {
         // res[count].date = new Date(res[count].date).toDateString();
-        res[count].date = this.datepipe.TransForm(res[count].date);
+        // res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;
       this.FooterValues();
     });
+    this.spinner.hideLoader();
   }
 
   MonthFilter() {
@@ -157,7 +159,7 @@ export class ReadGridComponent {
       let count = 0;
       res.forEach((val: any) => {
         // res[count].date = new Date(res[count].date).toDateString();
-        res[count].date = this.datepipe.TransForm(res[count].date);
+        // res[count].date = this.datepipe.TransForm(res[count].date);
         count++;
       });
       this.gridData = res;

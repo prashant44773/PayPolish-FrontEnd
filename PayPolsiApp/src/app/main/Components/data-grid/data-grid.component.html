@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="MainContainer" (keypress)="KeyBoardEvents($event,grid)">
+<div class="MainContainer" (keypress)="KeyBoardEvents($event,grid)" (keyup)="KeyUpEvents($event,grid)">
 <!-- <div class="MainContainer"> -->
   <kendo-grid #grid
     [data]="gridData"
@@ -12,12 +12,19 @@
     [navigable]="true"
     (cellClick)="cellClickHandler($event)"
     (cellClose)="cellCloseHandler($event)"
+    [loading]="isLoading"
     [style.maxHeight.vh]="99"
   >
     <ng-template kendoGridToolbarTemplate>
-      <button kendoGridAddCommand [primary]="true" class="myBtn">
+      <button kendoGridAddCommand [primary]="true" class="myBtn ms-1">
         <i class="bi bi-plus-circle-fill myicon" id="mi"> </i> Add New
       </button>
+      <button kendoButton class="relBtn ms-2" (click)="Reload()" matTooltip="Reload" matTooltipPosition="after">
+        <i class="bi bi-hourglass-split relicon"  id="rel"></i>
+      </button>
+      <div class="filterDate ms-3 d-flex justify-content-center align-items-center">
+        <app-searchbar></app-searchbar>
+      </div>
     </ng-template>
     <kendo-grid-column
       field="id"
@@ -60,7 +67,7 @@
     <kendo-grid-column
       field="recieve"
       title="Recieve"
-      editor="numeric"
+      editor="text"
       [width]="180"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
@@ -71,7 +78,7 @@
     <kendo-grid-column
       field="issue"
       title="Issue"
-      editor="numeric"
+      editor="text"
       [width]="170"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
@@ -91,7 +98,7 @@
     <kendo-grid-column
       field="pick"
       title="Pick"
-      editor="numeric"
+      editor="text"
       [width]="170"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
@@ -103,7 +110,7 @@
     <kendo-grid-column
       field="touch"
       title="Touch"
-      editor="numeric"
+      editor="text"
       [width]="170"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
@@ -158,7 +165,7 @@
 
     <kendo-grid-command-column
       title="Action"
-      [width]="300"
+      [width]="150"
       [headerStyle]="{
         'background-color': 'rgb(246 204 33)',
         color: 'white',
@@ -169,14 +176,14 @@
         <button kendoGridEditCommand [primary]="true" class="Editbtn">
           <i class="bi bi-pencil-fill editicon" id="me"> </i> Edit
         </button>
-        <button kendoGridRemoveCommand class="Delbtn">
+        <button kendoGridRemoveCommand class="Delbtn" *ngIf="false">
           <i class="bi bi-trash-fill delicon" id="md"></i> Remove
         </button>
         <button kendoGridSaveCommand [primary]="true" class="UpBtn">
           <i class="bi bi-upload upicon" id="mu"></i>
           {{ isNew ? "Add" : "Update" }}
         </button>
-        <button kendoGridCancelCommand class="Delbtn">
+        <button kendoGridCancelCommand class="Delbtn" *ngIf="false">
           <i class="bi bi-x-circle-fill delicon" id="md"></i>
           {{ isNew ? "Discard" : "Cancel" }}
         </button>

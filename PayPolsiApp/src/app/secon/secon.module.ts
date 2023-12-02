@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { CommanModule } from '../common/comman/comman.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatButtonModule } from '@angular/material/button';
     LayoutModule,
     MatButtonModule,
     GridModule,
+    CommanModule
   ],
 })
 export class SeconModule {}

@@ -18,7 +18,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { LayoutModule } from "@progress/kendo-angular-layout";
 import {MatButtonModule} from '@angular/material/button';
 import { FooterComponent } from './Components/footer/footer.component';
-
+import {CommanModule} from '../common/comman/comman.module'
 
 
 @NgModule({
@@ -42,7 +42,8 @@ import { FooterComponent } from './Components/footer/footer.component';
     MatIconModule,
     MatToolbarModule,
     LayoutModule,
-    MatButtonModule
+    MatButtonModule,
+    CommanModule
   ]
 })
 export class MainModule { }
